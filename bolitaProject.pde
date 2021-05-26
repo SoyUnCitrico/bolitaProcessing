@@ -8,18 +8,20 @@ boolean fotoVisible = false;
 
 void setup() {
   size(600,600);
+  //fullScreen();
   background(0);
-  img = loadImage("emme2.jpg");
+  img = loadImage("emmeSqr.jpg");
   img.resize(width,height);
   //Inicializacion del campo de vectores con e tamaño de la cuadricula
   //y la forma de la imagen que le estoy pasando;
-  campo = new FlowField(5,img);
+  //campo = new FlowField(5,img);
+  campo = new FlowField(20);
   //Inicializacion del Cluster de vehiculos que van a atravesar ese campo
   cluster = new BolitaCluster(5);
 }
 
 void draw() {
-  background(0);
+  //background(0);
   
   if(fotoVisible)
     image(img,0,0);
@@ -28,15 +30,18 @@ void draw() {
     campo.mostrarCampo();
   
   //cluster.arrivarMouse();
-  //cluster.deambularCluster("REVERSE_X");
-  cluster.atravesarCampo(campo,"REVERSE_X");
+  
+  //cluster.deambularCluster("REVERSE_Y");
+  
+  cluster.atravesarCampo(campo,"OTHERSIDE");
+  
+  //ArrayList<Bolita> otras = cluster.getBolitas();
+  //cluster.manadaCluster(otras,"OTHERSIDE");
+  
 }
 
-//void mousePressed() {
-//  cluster.crecer();
-//}
-
 void keyPressed() {
+  if(keyCode == 32) campo.initNoise();
   switch(key) {
     case 'w':
       cluster.debugDeambular();
@@ -48,10 +53,15 @@ void keyPressed() {
       fotoVisible = !fotoVisible;
       break;
     case 'n':
-      cluster.crecer();
+      cluster.crecer();   
       break;
+    case 'v':
+      cluster.cambiarLifeMode();
+      
+      break;
+      
     default:
-      print(String.format("La tecla %s ha sido presionada\n", key));
+      print(String.format("La tecla %s ha sido presionada\n", keyCode));
       print("No hay accion\n");
       break;
     }

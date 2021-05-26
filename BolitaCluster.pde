@@ -2,10 +2,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 class BolitaCluster{
-  ArrayList<Bolita> cluster = new ArrayList<Bolita>();
+  ArrayList<Bolita> cluster;
   int numElementos;
   
   BolitaCluster(int numBolitas) {
+    cluster = new ArrayList<Bolita>();
     numElementos = numBolitas;
     for(int i = 0; i < numBolitas; i++) {
       cluster.add(new Bolita(i));
@@ -24,7 +25,7 @@ class BolitaCluster{
     //Using an Iterator object instead of counting with int i
     while (it.hasNext()) {
       Bolita b = it.next();
-      b.seguirTarget(mousePosition);
+      b.seguirTarget(mousePosition, "OTHERSIDE");
       if (b.estaMuerto()) {
          it.remove();
          String logOut = String.format("Bolitas en el cluster: %d\n", cluster.size());
@@ -80,11 +81,20 @@ class BolitaCluster{
     }
   }
   
-  void debugDeambular() {
-    for(int i = 0; i < cluster.size(); i++) {
-      Bolita b = cluster.get(i);
-      b.toogleDebug();    
-    }  
+  
+  void manadaCluster(ArrayList<Bolita> otras, String typeBoundaries) {
+    Iterator<Bolita> it = cluster.iterator();
+    //Using an Iterator object instead of counting with int i
+    while (it.hasNext()) {
+      Bolita b = it.next();
+      b.manadaSensor(otras,typeBoundaries);
+      
+      if (b.estaMuerto()) {
+         it.remove();
+         String logOut = String.format("Bolitas en el cluster: %d\n", cluster.size());
+         print(logOut);
+      }
+    }
   }
   
   void crecer() {
@@ -92,5 +102,24 @@ class BolitaCluster{
     String logOut = String.format("Bolitas en el cluster: %d\n", cluster.size());
     print(logOut);
   }
+  
+  void debugDeambular() {
+    for(int i = 0; i < cluster.size(); i++) {
+      Bolita b = cluster.get(i);
+      b.toogleDebug();    
+    }  
+  }
+  
+  void cambiarLifeMode() {
+    for(int i = 0; i < cluster.size(); i++) {
+      Bolita b = cluster.get(i);
+      b.toogleLife();    
+    }  
+  }
+  
+  ArrayList<Bolita> getBolitas() {
+    return cluster;
+  }
+  
   
 }
