@@ -40,7 +40,7 @@ class Bolita {
     maxSpeed = 4;
     maxForce = 0.1;
 
-    diameter = 16;
+    diameter = 8;
     skin = color(random(255), random(255), random(255));
     originalColor = skin;
     isDebugging = false;
